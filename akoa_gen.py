@@ -84,6 +84,8 @@ def render() :
         drawAkoaForm(akoa_form_dic[name,grid_num-1],grid_num,"red")
         drawAkoaForm(akoa_form_dic[name,grid_num],grid_num,"blue")
 
+def new_sprite() :
+    print "new sprite"
 
 #akoa_pix1={"x":0,"y":0,"color":1}
 #akoa_pix2={"x":1,"y":1,"color":1}
@@ -116,6 +118,19 @@ canvas.pack(fill="both", expand=True) #Affiche le canevas
 
 #w = Spinbox(root,from_=0,to=7)
 #w.pack()
+
+
+spriteToolBarCanvas = Canvas(root, bg="red", width=640, height=512, relief = GROOVE)
+spriteToolBarCanvas.pack(side=LEFT)
+button_newSprite = Button(spriteToolBarCanvas,text="new sprite",command=new_sprite, width=8)
+button_newSprite.grid(row=1,column=0, padx =5, pady =5)
+button_newSprite = Button(spriteToolBarCanvas,text="delete sprite",command=new_sprite, width=8)
+button_newSprite.grid(row=1,column=1, padx =5, pady =5)
+spin_spriteList = Spinbox(spriteToolBarCanvas,from_=0,to=7)
+spin_spriteList.grid(row=0,column=0, padx =5, pady =5,columnspan=2)
+
+
+
 
 
 mainToolBarCanvas = Canvas(root, bg="grey", width=512, height=512, relief = GROOVE)
