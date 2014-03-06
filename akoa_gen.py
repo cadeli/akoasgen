@@ -53,14 +53,14 @@ def onCanvasClick(event):
 def clearAkoaForm( grid_num) :
     for x in range(0,AKOA_W):
         for y in range (0,AKOA_H):
-            drawPix(canvas,x,y,"grey",grid_num)
+            drawPix(gridsCanvas,x,y,"grey",grid_num)
 
 def drawAkoaForm(akoa_form, grid_num,color) :                   
     for pix_id in akoa_form:
         #print "pix",pix_id, "=", akoa_form[pix_id]
         pix = akoa_form[pix_id]
         for attr in pix:
-            drawPix(canvas,pix['x'],pix['y'],color,grid_num)
+            drawPix(gridsCanvas,pix['x'],pix['y'],color,grid_num)
 
 def save() :
     print "save "
@@ -98,9 +98,8 @@ current_akoa_form = {}
     
 root= Tk()
  
-canvas = Canvas(root, bg="white", width=1224, height=512)
-
-canvas.bind('<ButtonPress-1>', onCanvasClick)                
+gridsCanvas = Canvas(root, bg="white", width=1224, height=512)
+gridsCanvas.bind('<ButtonPress-1>', onCanvasClick)                
 #drawBg(canvas)
 
 akoa_form_dic = {}
@@ -108,20 +107,11 @@ name="basicAkoa"
 for grid_num in range (0,8) :
     akoa_form = {}
     akoa_form_dic[name,grid_num]=akoa_form
-    drawGrid(canvas,grid_num)
+    drawGrid(gridsCanvas,grid_num)
 #drawAkoaForm(akoa_form1)
 
 
-
-
-canvas.pack(fill="both", expand=True) #Affiche le canevas
-
-#w = Spinbox(root,from_=0,to=7)
-#w.pack()
-
-
-spriteToolBarCanvas = Canvas(root, bg="red", width=640, height=512, relief = GROOVE)
-spriteToolBarCanvas.pack(side=LEFT)
+spriteToolBarCanvas = Canvas(root, bg="red",  height=512, relief = GROOVE)
 button_newSprite = Button(spriteToolBarCanvas,text="new sprite",command=new_sprite, width=8)
 button_newSprite.grid(row=1,column=0, padx =5, pady =5)
 button_newSprite = Button(spriteToolBarCanvas,text="delete sprite",command=new_sprite, width=8)
@@ -130,11 +120,7 @@ spin_spriteList = Spinbox(spriteToolBarCanvas,from_=0,to=7)
 spin_spriteList.grid(row=0,column=0, padx =5, pady =5,columnspan=2)
 
 
-
-
-
 mainToolBarCanvas = Canvas(root, bg="grey", width=512, height=512, relief = GROOVE)
-mainToolBarCanvas.pack(side=LEFT)
 button_save = Button(mainToolBarCanvas,text="Save",command=save, width=3)
 button_save.grid(row=0,column=0, padx =5, pady =0)
 button_read = Button(mainToolBarCanvas,text="Read",command=read, width=3)
@@ -143,4 +129,13 @@ button_render = Button(mainToolBarCanvas,text="Render",command=render, width=3)
 button_render.grid(row=1,column=0, padx =5, pady =0)
 bouton_sortir = Button(mainToolBarCanvas,text="Sortir",command=root.destroy, width=3)
 bouton_sortir.grid(row=2,column=0, padx =5, pady =0)
+
+
+
+spriteToolBarCanvas.pack(side=TOP)
+gridsCanvas.pack(fill="both", expand=True) #Affiche le canevas
+mainToolBarCanvas.pack(side=LEFT)
+
+
+
 root.mainloop()
