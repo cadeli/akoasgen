@@ -112,19 +112,20 @@ for grid_num in range (0,8) :
 
 
 
-canvas.pack() #Affiche le canevas
+canvas.pack(fill="both", expand=True) #Affiche le canevas
 
-w = Spinbox(root,from_=0,to=7)
-w.pack()
-button_save = Button(root,text="Save",command=save)
-button_save.pack( side = LEFT )
-button_save = Button(root,text="Read",command=read)
-button_save.pack( side = LEFT )
-button_save = Button(root,text="Save",command=save)
-button_save.pack( side = LEFT )
-button_save = Button(root,text="Render",command=render)
-button_save.pack( side = LEFT )
-bouton_sortir = Button(root,text="Sortir",command=root.destroy)
-bouton_sortir.pack( side = LEFT )
+#w = Spinbox(root,from_=0,to=7)
+#w.pack()
 
+
+mainToolBarCanvas = Canvas(root, bg="grey", width=512, height=512, relief = GROOVE)
+mainToolBarCanvas.pack(side=LEFT)
+button_save = Button(mainToolBarCanvas,text="Save",command=save, width=3)
+button_save.grid(row=0,column=0, padx =5, pady =0)
+button_read = Button(mainToolBarCanvas,text="Read",command=read, width=3)
+button_read.grid(row=0,column=1, padx =5, pady =0)
+button_render = Button(mainToolBarCanvas,text="Render",command=render, width=3)
+button_render.grid(row=1,column=0, padx =5, pady =0)
+bouton_sortir = Button(mainToolBarCanvas,text="Sortir",command=root.destroy, width=3)
+bouton_sortir.grid(row=2,column=0, padx =5, pady =0)
 root.mainloop()
