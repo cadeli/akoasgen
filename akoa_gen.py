@@ -2,6 +2,9 @@
 import pickle  #save
 import ttk
 from Tkinter import *
+from collections import namedtuple
+
+SpriteStruct = namedtuple("SpriteStruct", "name width height animation_name animation_frame_num")
 
 UNIT_PX = 15
 AKOA_H = 8
@@ -103,6 +106,14 @@ def sprite_name_selected() :
 current_akoa_form = {}
 sprites_names = {}
 sprites_names= ('sprite 1','sprite deux ','sprite encore')
+
+sprite1 = SpriteStruct(name="sprite 1", width = "8", height= "8", animation_name ="sprites_1", animation_frame_num="0")
+sprite1_1 = SpriteStruct(name="sprite 1", width = "8", height= "8", animation_name ="sprites_1", animation_frame_num="1")
+sprite2 = SpriteStruct(name="sprite 2", width = "8", height= "8", animation_name ="sprites_2", animation_frame_num="0")
+sprite3 = SpriteStruct(name="sprite 3", width = "8", height= "8", animation_name ="sprites_3", animation_frame_num="0")
+
+sprites_list=(sprite1,sprite2,sprite3,sprite1_1)
+
 root= Tk()
  
 grids_canvas = Canvas(root, bg="white", width=1224, height=512)
@@ -123,7 +134,7 @@ button_newSprite = Button(sprite_tool_bar_canvas,text="new sprite",command=new_s
 button_newSprite.grid(row=1,column=0, padx =5, pady =5)
 button_newSprite = Button(sprite_tool_bar_canvas,text="delete sprite",command=new_sprite, width=8)
 button_newSprite.grid(row=1,column=1, padx =5, pady =5)
-spin_spriteList = ttk.Combobox(sprite_tool_bar_canvas,values = sprites_names)
+spin_spriteList = ttk.Combobox(sprite_tool_bar_canvas,values = sprites_list)
 spin_spriteList.grid(row=0,column=0, padx =5, pady =5,columnspan=2)
 #sprites_names.bind('<<ComboboxSelected>>', sprite_name_selected)
 
