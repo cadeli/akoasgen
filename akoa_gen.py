@@ -128,12 +128,12 @@ for grid_num in range (0,8) :
 
 
 sprite_tool_bar_canvas = Canvas(root,  height=512, relief = GROOVE)
-button_newSprite = Button(sprite_tool_bar_canvas,text="new anim",command=new_sprite, width=8)
-button_newSprite.grid(row=1,column=0, padx =5, pady =5)
-button_newSprite = Button(sprite_tool_bar_canvas,text="delete anim",command=new_sprite, width=8)
-button_newSprite.grid(row=1,column=1, padx =5, pady =5)
-spin_spriteList = ttk.Combobox(sprite_tool_bar_canvas,values = sprites_list)
-spin_spriteList.grid(row=0,column=0, padx =5, pady =5,columnspan=2)
+button_new_sprite = Button(sprite_tool_bar_canvas,text="new anim",command=new_sprite, width=8)
+button_new_sprite.grid(row=1,column=0, padx =5, pady =5)
+button_new_sprite = Button(sprite_tool_bar_canvas,text="delete anim",command=new_sprite, width=8)
+button_new_sprite.grid(row=1,column=1, padx =5, pady =5)
+spin_sprite_list = ttk.Combobox(sprite_tool_bar_canvas,values = sprites_list)
+spin_sprite_list.grid(row=0,column=0, padx =5, pady =5,columnspan=2)
 #sprites_list.bind("<<ComboboxSelected>>", sprite_name_selected)
 
 main_tool_bar_canvas = Canvas(root, bg="grey", width=512, height=512, relief = GROOVE)
