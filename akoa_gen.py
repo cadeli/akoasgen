@@ -60,7 +60,7 @@ def draw_akoa_form(akoa_form, grid_num,color) :
         #print "pix",pix_id, "=", akoa_form[pix_id]
         pix = akoa_form[pix_id]
         for attr in pix:
-            draw_pix(gridsCanvas,pix['x'],pix['y'],color,grid_num)
+            draw_pix(grids_canvas,pix['x'],pix['y'],color,grid_num)
 
 def save() :
     print "save "
