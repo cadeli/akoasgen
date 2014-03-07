@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import pickle  #save
+import ttk
 from Tkinter import *
 
 UNIT_PX = 15
@@ -28,11 +29,12 @@ def draw_pix(canvas,x,y,color,grid_num):
     y1=offset_y + UNIT_PX*y
     canvas.create_rectangle(x1,y1,x1+UNIT_PX,y1+UNIT_PX, fill=color)
 
-
+##
 #def draw_bg(canvas) :  
     #canvas.create_line(0,0,499,499) #Dessine une ligne en diagonale
     #canvas.create_rectangle( 0,0,UNIT_PX*10,UNIT_PX*10, fill="white")
 
+####
 def on_canvas_click(event):
     #print 'Got canvas click', event.x, event.y, event.widget
     grid_num =   int((event.x-UNIT_PX) /(UNIT_PX*(AKOA_W+2)))
@@ -53,7 +55,7 @@ def on_canvas_click(event):
 def clear_akoa_form( grid_num) :
     for x in range(0,AKOA_W):
         for y in range (0,AKOA_H):
-            draw_pix(gridsCanvas,x,y,"grey",grid_num)
+            draw_pix(grids_canvas,x,y,"grey",grid_num)
 
 def draw_akoa_form(akoa_form, grid_num,color) :                   
     for pix_id in akoa_form:
@@ -87,6 +89,10 @@ def render() :
 def new_sprite() :
     print "new sprite"
 
+
+def sprite_name_selected() :
+    print "select"
+    
 #akoa_pix1={"x":0,"y":0,"color":1}
 #akoa_pix2={"x":1,"y":1,"color":1}
 #akoa_pix3={"x":2,"y":1,"color":1}
@@ -95,7 +101,8 @@ def new_sprite() :
 #akoa_form1 = {"1":akoa_pix1,"2":akoa_pix2,"3":akoa_pix2}
 #print "akoaform_1", akoa_form1
 current_akoa_form = {}
-    
+sprites_names = {}
+sprites_names= ('sprite 1','sprite deux ','sprite encore')
 root= Tk()
  
 grids_canvas = Canvas(root, bg="white", width=1224, height=512)
@@ -116,9 +123,9 @@ button_newSprite = Button(sprite_tool_bar_canvas,text="new sprite",command=new_s
 button_newSprite.grid(row=1,column=0, padx =5, pady =5)
 button_newSprite = Button(sprite_tool_bar_canvas,text="delete sprite",command=new_sprite, width=8)
 button_newSprite.grid(row=1,column=1, padx =5, pady =5)
-spin_spriteList = Spinbox(sprite_tool_bar_canvas,from_=0,to=7)
+spin_spriteList = ttk.Combobox(sprite_tool_bar_canvas,values = sprites_names)
 spin_spriteList.grid(row=0,column=0, padx =5, pady =5,columnspan=2)
-
+#sprites_names.bind('<<ComboboxSelected>>', sprite_name_selected)
 
 main_tool_bar_canvas = Canvas(root, bg="grey", width=512, height=512, relief = GROOVE)
 button_save = Button(main_tool_bar_canvas,text="Save",command=save, width=3)
