@@ -4,7 +4,8 @@ import ttk
 import ast
 import re
 import tkFont
-from Tkinter import *
+import Tkinter as Tk
+import PIL.Image
 from collections import namedtuple
 
 UNIT_PX = 15
@@ -31,7 +32,10 @@ def draw_grid(canvas ):
             y1 = j*UNIT_PX + offset_y
             x2 = x1+UNIT_PX
             y2 = y1+UNIT_PX
-            canvas.create_rectangle(x1,y1,x2,y2,fill="white")
+            if ((i%8)==0) or ((j%8)==0) :
+                canvas.create_rectangle(x1,y1,x2,y2,fill="red")
+            else:
+                canvas.create_rectangle(x1,y1,x2,y2,fill="white")
             
 def draw_sprite(canvas):
     #print "drawsprite current_sprite = ", current_sprite
@@ -90,23 +94,39 @@ def draw_akoa_form(akoa_form, grid_num,color) :
 
 def save() :
     print "save "
+    global current_sprite
      # ici le file selectetor (save as)
+    name = current_sprite['name']
     with open('akoa_as_list.txt','wb') as out_file:
         my_pickler = pickle.Pickler(out_file)
-        my_pickler.dump(current_akoa_form)
+        my_pickler.dump(current_sprite)
         out_file.close()    
 
 def read() :
     print "read "
+    global current_sprite
     with open('akoa_as_list.txt','rb') as in_file:
         my_pickler = pickle.Unpickler(in_file)
-        current_akoa_form = my_pickler.load()
+        current_sprite = my_pickler.load()
         in_file.close()
-        draw_akoa_form(current_akoa_form,0,"blue")
-
+        draw_sprite_edit_canvas()
+        
 def render() :
     print "render "
-    print akoa_form_dic
+    global current_sprite
+    size = (int(current_sprite["width"]),int(current_sprite["height"]))
+    im = PIL.Image.new("RGB", size, "white")
+    pix = im.load()
+    for i in range(size[0]):
+        for j in range(size[1]):
+            key = "pix_"+str(i)+"_"+str(j)
+            #print key
+            if current_sprite.has_key(key):
+                pix[i,j] = (255,255,255,0) 
+            else:
+                 pix[i,j] =  (0,0,0,255) 
+    im.save(current_sprite["name"]+'.png')
+
     # ici le file selectetor (save as)
 
 def new_sprite() :
@@ -122,7 +142,7 @@ def draw_sprite_edit_canvas() :
     label_sprite_title.update()
     sprite_edit_canvas.update()
   
-def sprite_name_selected(event) :
+def sprite_name_selected(event) : 
     global sprites_list
     global current_sprite
     for el in sprites_list :
@@ -144,23 +164,23 @@ def maj_spritenames_list() :
     return spritenames_list
 
 #########################################################
-root= Tk()
+root= Tk.Tk()
 customFont = tkFont.Font(family="Helvetica", size=24)
  
-sprite_edit_canvas = Canvas(root, bg="white")
-label_sprite_title = Label(sprite_edit_canvas,text="", width=64, relief = GROOVE, fg="red",font=customFont)
-label_sprite_title.pack(side=TOP)
-grid_canvas = Canvas(sprite_edit_canvas,   relief = GROOVE, bg="white")
+sprite_edit_canvas = Tk.Canvas(root, bg="white")
+label_sprite_title = Tk.Label(sprite_edit_canvas,text="", width=64, relief = Tk.GROOVE, fg="red",font=customFont)
+label_sprite_title.pack(side=Tk.TOP)
+grid_canvas = Tk.Canvas(sprite_edit_canvas,   relief = Tk.GROOVE, bg="white")
 grid_canvas.bind('<ButtonPress-1>', on_grid_click)    
 grid_canvas.pack(fill="both", expand=True)
 draw_sprite_edit_canvas()
 
 
 #spritetoolbar
-sprite_tool_bar_canvas = Canvas(root,  height=512, relief = GROOVE)
-button_new_sprite = Button(sprite_tool_bar_canvas,text="new anim",command=new_sprite, width=8)
+sprite_tool_bar_canvas = Tk.Canvas(root,  height=512, relief = Tk.GROOVE)
+button_new_sprite = Tk.Button(sprite_tool_bar_canvas,text="new anim",command=new_sprite, width=8)
 button_new_sprite.grid(row=1,column=0, padx =5, pady =5)
-button_new_sprite = Button(sprite_tool_bar_canvas,text="delete anim",command=new_sprite, width=8)
+button_new_sprite = Tk.Button(sprite_tool_bar_canvas,text="delete anim",command=new_sprite, width=8)
 button_new_sprite.grid(row=1,column=1, padx =5, pady =5)
 
 spritenames_list = maj_spritenames_list()
@@ -170,19 +190,19 @@ combo_sprite_list.set(spritenames_list[0])
 combo_sprite_list.bind("<<ComboboxSelected>>", sprite_name_selected)
 
 #maintoolbar
-main_tool_bar_canvas = Canvas(root, bg="grey", width=512, height=512, relief = GROOVE)
-button_save = Button(main_tool_bar_canvas,text="Save",command=save, width=3)
+main_tool_bar_canvas = Tk.Canvas(root, bg="grey", width=512, height=512, relief = Tk.GROOVE)
+button_save = Tk.Button(main_tool_bar_canvas,text="Save",command=save, width=3)
 button_save.grid(row=0,column=0, padx =5, pady =0)
-button_read = Button(main_tool_bar_canvas,text="Read",command=read, width=3)
+button_read = Tk.Button(main_tool_bar_canvas,text="Read",command=read, width=3)
 button_read.grid(row=0,column=1, padx =5, pady =0)
-button_render = Button(main_tool_bar_canvas,text="Render",command=render, width=3)
+button_render = Tk.Button(main_tool_bar_canvas,text="Render",command=render, width=3)
 button_render.grid(row=1,column=0, padx =5, pady =0)
-button_exit = Button(main_tool_bar_canvas,text="Sortir",command=root.destroy, width=3)
+button_exit = Tk.Button(main_tool_bar_canvas,text="Sortir",command=root.destroy, width=3)
 button_exit.grid(row=2,column=0, padx =5, pady =0)
 
-sprite_tool_bar_canvas.pack(side=TOP)
+sprite_tool_bar_canvas.pack(side=Tk.TOP)
 sprite_edit_canvas.pack(fill="both", expand=True) #Affiche le canevas
-main_tool_bar_canvas.pack(side=LEFT)
+main_tool_bar_canvas.pack(side=Tk.LEFT)
 
 
 
