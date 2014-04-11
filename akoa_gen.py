@@ -97,7 +97,7 @@ def save() :
     global current_sprite
      # ici le file selectetor (save as)
     name = current_sprite['name']
-    with open('akoa_as_list.txt','wb') as out_file:
+    with open(name+'.txt','wb') as out_file:
         my_pickler = pickle.Pickler(out_file)
         my_pickler.dump(current_sprite)
         out_file.close()    
@@ -105,7 +105,8 @@ def save() :
 def read() :
     print "read "
     global current_sprite
-    with open('akoa_as_list.txt','rb') as in_file:
+    name = current_sprite['name']
+    with open(name+'.txt','rb') as in_file:
         my_pickler = pickle.Unpickler(in_file)
         current_sprite = my_pickler.load()
         in_file.close()
